@@ -54,8 +54,9 @@ class HomeController extends Controller
     public  function getListbaigiang($id)
     {
         $data =  DB::table('lesson')->join('subjects','lesson.id_subjects','=','subjects.id')->where('id_subjects',$id)->get();
+        $mon =  DB::table('subjects')->where('id',$id)->get();
 
-        return view('schoolsbus.listLesson',compact('data'));
+        return view('schoolsbus.listLesson',compact('data','mon'));
     }
     public function getListChapter($id)
     {
@@ -85,6 +86,63 @@ class HomeController extends Controller
        
        return back();
 
+    }
+    public function listExam($id)
+    {
+       $data = DB::table('exam')->where('subject',$id)->get();
+       return view('schoolsbus.listExam' ,compact('data'));
+    }
+    public function listthreads($id)
+    {
+        $data = DB::table('threads')->where('exam',$id)->get();
+
+       return view('schoolsbus.listthreads' ,compact('data'));
+    }
+    public function  postthreades(Request $re , $id)   
+    {
+         $diem  = 1;
+         $data = '';
+        switch ($id) {
+           
+            case 1:
+               for($i=1 ; $i<=5 ; $i++){
+                $select =  $re->$i;
+                $data = DB::table('threads')->where('id_threads',$i)->get();
+                 foreach ($data as $key => $value) {
+                if ($select == $value->answer ) {
+                   $diem = $diem * 2;
+                }
+                
+               }
+             }
+             if ($diem > 5) {
+                  $data = array('username'=>Auth::user()->id , 'course'=>1,'point'=>$diem , 'classification'=>'good');
+                 
+             } else {
+                  $data = array('username'=>Auth::user()->id , 'course'=>1,'point'=>$diem , 'classification'=>'medium');
+                 
+             }
+             
+            
+                break;
+            case 2:
+                
+                break;
+            default:
+                # code...
+                break;
+        }
+           $insert = DB::table('learning')->insert($data);
+        
+          return redirect('getLearning');
+  
+       
+    }
+    public  function  getLearning()
+    {
+       $data = DB::table('learning')->join('users','learning.');
+       
+       return  view('schoolsbus.getLearning');   
     }
 
 }

@@ -2,7 +2,6 @@
 
 @section('content')
 
-
 <form method="post">
     <div class="form-group row">
                            
@@ -59,5 +58,5 @@
     {{csrf_field()}}
     
 </form>
-@endsection
 
+@endsection

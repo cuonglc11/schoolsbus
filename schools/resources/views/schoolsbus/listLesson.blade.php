@@ -21,5 +21,9 @@
     </tr>
 </tbody>
     @endforeach 
-    <a href="" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span>Final examination </a>
+    
+    @foreach($mon as $mon)
+    <a href="{{url('/listExam/'.$mon->id)}}" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span>Final examination </a>
+
+    @endforeach
 @endsection

@@ -31,3 +31,9 @@ Route::get('/listChapter/{id}','HomeController@getListChapter')->name('listChapt
 Route::get('/contentchapter/{id}','HomeController@getContentChapter')->name('contentchapter/{id}');
 Route::post('/contentchapter/{id}','HomeController@postContentChapter');
 Route::get('/deleteCourse/{id}','HomeController@deleteCouse')->name('deleteCourse/{id}');
+
+Route::get('/listExam/{id}','HomeController@listExam')->name('listExam/{id}');
+Route::get('/listthreads/{id}','HomeController@listthreads')->name('listthreads/{id}');
+Route::post('/listthreads/{id}','HomeController@postthreades')->name('listthreads/{id}');
+
+Route::get('/getLearning','HomeController@getLearning')->name('getLearning');
