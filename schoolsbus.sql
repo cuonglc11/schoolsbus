@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 11, 2020 lúc 04:51 AM
+-- Thời gian đã tạo: Th4 25, 2020 lúc 07:18 AM
 -- Phiên bản máy phục vụ: 10.4.11-MariaDB
 -- Phiên bản PHP: 7.2.29
 
@@ -133,7 +133,49 @@ INSERT INTO `course` (`id_course`, `id_student`, `id_teacher`, `id_subiect`, `id
 (4, 1, 4, 3, 2),
 (5, 1, 4, 5, 2),
 (7, 2, 1, 1, 1),
-(10, 2, 5, 3, 2);
+(10, 2, 5, 3, 2),
+(11, 3, 1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `exam`
+--
+
+CREATE TABLE `exam` (
+  `id_exam` int(10) UNSIGNED NOT NULL,
+  `name_exam` varchar(225) NOT NULL,
+  `subject` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Đang đổ dữ liệu cho bảng `exam`
+--
+
+INSERT INTO `exam` (`id_exam`, `name_exam`, `subject`) VALUES
+(1, 'Exam 1', 1),
+(2, 'Exam 2', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `learning`
+--
+
+CREATE TABLE `learning` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `username` int(10) UNSIGNED NOT NULL,
+  `course` int(10) UNSIGNED NOT NULL,
+  `classification` varchar(225) NOT NULL,
+  `point` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Đang đổ dữ liệu cho bảng `learning`
+--
+
+INSERT INTO `learning` (`id`, `username`, `course`, `classification`, `point`) VALUES
+(13, 3, 1, 'medium', 2);
 
 -- --------------------------------------------------------
 
@@ -260,6 +302,33 @@ INSERT INTO `teacher` (`id_teacher`, `name_teacher`, `phone`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `threads`
+--
+
+CREATE TABLE `threads` (
+  `id_threads` int(11) NOT NULL,
+  `threads` varchar(225) NOT NULL,
+  `a` varchar(225) NOT NULL,
+  `b` varchar(225) NOT NULL,
+  `c` varchar(225) NOT NULL,
+  `answer` varchar(225) NOT NULL,
+  `exam` int(11) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Đang đổ dữ liệu cho bảng `threads`
+--
+
+INSERT INTO `threads` (`id_threads`, `threads`, `a`, `b`, `c`, `answer`, `exam`) VALUES
+(1, 'What is php?', 'colloquial', 'programming language', 'management system', 'programming language', 1),
+(2, 'Where is the PHP syntax?', 'echo \"Hello\"', 'system.in.printf(\"hello\")', 'cout \"Hello\"', 'echo \"Hello\"', 1),
+(3, 'open source PHP Where is it?', 'sping', 'laravel', 'asp.net', 'laravel', 1),
+(4, 'php what design', 'web', 'moble', 'android', 'web', 1),
+(5, 'Where is the php extension?', '.html', '.php', '.css', '.php', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `time_course`
 --
 
@@ -299,7 +368,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'cường', 'cuonglc@gmail.com', NULL, '$2y$10$skynZ28IZ1cSpNeyQhcwMuWYR2eOiQAwzOe2N0o5jlD06XxP.wSlS', NULL, '2020-04-08 06:30:19', '2020-04-08 06:30:19'),
-(2, 'gaoooooo', 'dev.cuonglm@asiakite.vn', NULL, '$2y$10$biY546N8Xif3fD9c.ia7X.hAezQB.DvVGT/4oLcct1eBxpokfIzE6', NULL, '2020-04-10 18:39:17', '2020-04-10 18:39:17');
+(2, 'gaoooooo', 'dev.cuonglm@asiakite.vn', NULL, '$2y$10$biY546N8Xif3fD9c.ia7X.hAezQB.DvVGT/4oLcct1eBxpokfIzE6', NULL, '2020-04-10 18:39:17', '2020-04-10 18:39:17'),
+(3, 'nam', 'lucuong837@gmail.com', NULL, '$2y$10$ubmO5lbKtAa.ghFophrddekFM0dVKpqd1tePcW8otSWFfLhBbCJkO', NULL, '2020-04-21 18:17:05', '2020-04-21 18:17:05');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -338,6 +408,21 @@ ALTER TABLE `course`
   ADD KEY `id_time` (`id_time`);
 
 --
+-- Chỉ mục cho bảng `exam`
+--
+ALTER TABLE `exam`
+  ADD PRIMARY KEY (`id_exam`),
+  ADD KEY `subject` (`subject`);
+
+--
+-- Chỉ mục cho bảng `learning`
+--
+ALTER TABLE `learning`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `username` (`username`),
+  ADD KEY `course` (`course`);
+
+--
 -- Chỉ mục cho bảng `lesson`
 --
 ALTER TABLE `lesson`
@@ -367,6 +452,13 @@ ALTER TABLE `subjects`
 --
 ALTER TABLE `teacher`
   ADD PRIMARY KEY (`id_teacher`);
+
+--
+-- Chỉ mục cho bảng `threads`
+--
+ALTER TABLE `threads`
+  ADD PRIMARY KEY (`id_threads`,`a`,`b`,`c`),
+  ADD KEY `exam` (`exam`);
 
 --
 -- Chỉ mục cho bảng `time_course`
@@ -407,7 +499,19 @@ ALTER TABLE `content_chapter`
 -- AUTO_INCREMENT cho bảng `course`
 --
 ALTER TABLE `course`
-  MODIFY `id_course` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_course` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT cho bảng `exam`
+--
+ALTER TABLE `exam`
+  MODIFY `id_exam` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT cho bảng `learning`
+--
+ALTER TABLE `learning`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT cho bảng `lesson`
@@ -434,6 +538,12 @@ ALTER TABLE `teacher`
   MODIFY `id_teacher` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT cho bảng `threads`
+--
+ALTER TABLE `threads`
+  MODIFY `id_threads` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT cho bảng `time_course`
 --
 ALTER TABLE `time_course`
@@ -443,7 +553,7 @@ ALTER TABLE `time_course`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
@@ -478,10 +588,29 @@ ALTER TABLE `course`
   ADD CONSTRAINT `course_ibfk_4` FOREIGN KEY (`id_time`) REFERENCES `time_course` (`id_time`);
 
 --
+-- Các ràng buộc cho bảng `exam`
+--
+ALTER TABLE `exam`
+  ADD CONSTRAINT `exam_ibfk_1` FOREIGN KEY (`subject`) REFERENCES `subjects` (`id`);
+
+--
+-- Các ràng buộc cho bảng `learning`
+--
+ALTER TABLE `learning`
+  ADD CONSTRAINT `learning_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `learning_ibfk_2` FOREIGN KEY (`course`) REFERENCES `subjects` (`id`);
+
+--
 -- Các ràng buộc cho bảng `lesson`
 --
 ALTER TABLE `lesson`
   ADD CONSTRAINT `lesson_ibfk_1` FOREIGN KEY (`id_subjects`) REFERENCES `subjects` (`id`);
+
+--
+-- Các ràng buộc cho bảng `threads`
+--
+ALTER TABLE `threads`
+  ADD CONSTRAINT `threads_ibfk_1` FOREIGN KEY (`exam`) REFERENCES `exam` (`id_exam`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
